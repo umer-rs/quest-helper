@@ -303,8 +303,9 @@ public class DesertTreasure extends BasicQuestHelper
 		energyOrStaminas = new ItemRequirement("Energy/Stamina potions", ItemCollections.RUN_RESTORE_ITEMS);
 
 		// Teleports
-		canifisTeleport = new TeleportItemRequirement("Teleport to Canifis. Fairy Ring (CKS), Fenkenstrain's teleport", ItemCollections.FAIRY_STAFF);
+		canifisTeleport = new TeleportItemRequirement("Teleport to Canifis. Fairy Ring (CKS), Fenkenstrain's/Salve graveyard teleport.", ItemCollections.FAIRY_STAFF);
 		canifisTeleport.addAlternates(ItemID.FENKENSTRAINS_CASTLE_TELEPORT);
+		canifisTeleport.addAlternates(ItemID.SALVE_GRAVEYARD_TELEPORT);
 		bedabinTeleport = new TeleportItemRequirement("Teleport to Bedabin Camp. Fairy Ring (BIQ), Camulet", ItemCollections.FAIRY_STAFF);
 		bedabinTeleport.addAlternates(ItemID.CAMULET);
 		pollnivneachTeleport = new TeleportItemRequirement("Teleport to Pollnivneach. Pollnivneach house teleport", ItemID.POLLNIVNEACH_TELEPORT);
@@ -517,7 +518,7 @@ public class DesertTreasure extends BasicQuestHelper
 		usePotOnGrave = new ObjectStep(this, ObjectID.VAMPYRE_TOMB, new WorldPoint(3570, 3402, 0),
 			"Use the blessed pot on the vampyre tomb in the graveyard south east of Canifis. Be prepared to fight Dessous.", potComplete);
 		usePotOnGrave.addIcon(ItemID.BLESSED_POT_4665);
-		killDessous = new NpcStep(this, NpcID.DESSOUS, new WorldPoint(3570, 3403, 0), "Kill Dessous.");
+		killDessous = new NpcStep(this, NpcID.DESSOUS, new WorldPoint(3570, 3403, 0), "Kill Dessous. You can avoid taking damage by alternating between protection from melee and protection from range each game tick.");
 
 		talkToMalakForDiamond = new NpcStep(this, NpcID.MALAK, new WorldPoint(3496, 3479, 0), "Return to Malak in Canifis to get the Blood Diamond.");
 		talkToMalakForDiamond.addTeleport(canifisTeleport);
