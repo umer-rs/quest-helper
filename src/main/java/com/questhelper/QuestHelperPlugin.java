@@ -68,6 +68,7 @@ import net.runelite.api.Item;
 import net.runelite.api.ItemContainer;
 import net.runelite.api.Menu;
 import net.runelite.api.MenuEntry;
+import net.runelite.api.Quest;
 import net.runelite.api.VarPlayer;
 import net.runelite.api.WorldType;
 import net.runelite.api.events.ChatMessage;
@@ -190,6 +191,9 @@ public class QuestHelperPlugin extends Plugin
 	@Getter
 	private int lastTickBankUpdated = -1;
 
+	private QuestHelper lastSelectedQuestHelper = null;
+	private long lastLoggedInAccountHash = -1;
+
 	private final Collection<String> configEvents = Arrays.asList("orderListBy", "filterListBy", "questDifficulty", "showCompletedQuests");
 	private final Collection<String> configItemEvents = Arrays.asList("highlightNeededQuestItems", "highlightNeededMiniquestItems", "highlightNeededAchievementDiaryItems");
 
@@ -286,6 +290,7 @@ public class QuestHelperPlugin extends Plugin
 		if (state == GameState.LOGIN_SCREEN)
 		{
 			questBankManager.saveBankToConfig();
+			lastSelectedQuestHelper = questManager.getSelectedQuest();
 			SwingUtilities.invokeLater(() -> panel.refresh(Collections.emptyList(), true, new HashMap<>()));
 			questBankManager.emptyState();
 			questManager.shutDownQuest(true);
@@ -302,6 +307,12 @@ public class QuestHelperPlugin extends Plugin
 			clientThread.invokeAtTickEnd(() -> {
 				questManager.setupRequirements();
 				questManager.setupOnLogin();
+				long currentAccountHash = client.getAccountHash();
+				if (lastSelectedQuestHelper != null && lastLoggedInAccountHash == currentAccountHash)
+				{
+					questManager.startUpQuest(lastSelectedQuestHelper);
+				}
+				lastLoggedInAccountHash = currentAccountHash;
 			});
 		}
 	}
